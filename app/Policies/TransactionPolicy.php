@@ -9,7 +9,7 @@ class TransactionPolicy
 {
     use HandlesAuthorization;
 
-    public function index(User $user)
+    public function viewAll(User $user)
     {
         return $user->role === 'admin';
     }

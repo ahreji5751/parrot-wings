@@ -5,12 +5,18 @@ namespace App\Http\Controllers;
 use App\Transaction;
 use App\User;
 use Illuminate\Http\Request;
+use App\Http\Resources\Transaction as TransactionResource;
 
 class TransactionController extends Controller
 {
     public function index()
     {
+        return TransactionResource::collection(auth()->user()->transactions()->get());
+    }
 
+    public function all()
+    {
+        return Transaction::all();
     }
 
     public function update()

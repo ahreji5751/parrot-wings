@@ -22,10 +22,11 @@ Route::middleware('auth:api')->group(function () {
 
     Route::get('/user/names', 'UserController@names');
 
-    Route::get('/users', 'UserController@index')->middleware('can:index,App\User');
+    Route::get('/users', 'UserController@index')->middleware('can:viewAll,App\User');
     Route::put('/user', 'UserController@update')->middleware('can:update,App\User');
 
-    Route::get('/transactions', 'TransactionController@index')->middleware('can:index,App\User');
-    Route::put('/transaction', 'TransactionController@update')->middleware('can:update,App\User');
+    Route::get('/transactions/my', 'TransactionController@index');
+    Route::get('/transactions/all', 'TransactionController@all')->middleware('can:viewAll,App\Transaction');
+    Route::put('/transaction', 'TransactionController@update')->middleware('can:update,App\Transaction');
     Route::post('/transaction', 'TransactionController@create');
 });
