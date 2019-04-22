@@ -58,9 +58,18 @@ class User extends Authenticatable
 
     public function getAllEmails($request)
     {
-        return $this->search($request->search)
+        return $this->where('id', '!=', auth()->user()->id)
+                    ->search($request->search)
                     ->get()
                     ->pluck('email');
+    }
+
+    public function getTransactions($request)
+    {
+        return $this->transactions()
+                    ->sortable([$request->orderBy => $request->orderType])
+                    ->get();
+
     }
 
     public function createTransaction($type, $amount, $correspondent_id)

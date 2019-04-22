@@ -10,11 +10,22 @@ use Exception;
 
 class Transaction extends Model
 {
-    use SearchableTrait, Sortable;
+    use Sortable;
 
     protected $fillable = [
         'type', 'amount', 'balance_before', 'balance_after', 'correspondent_id'
     ];
+
+    public $sortable = [
+        'id',
+        'created_at',
+        'updated_at'
+    ];
+
+    public function getAll($request)
+    {
+        return Transaction::sortable([$request->orderBy => $request->orderType])->get();
+    }
 
     public function user()
     {

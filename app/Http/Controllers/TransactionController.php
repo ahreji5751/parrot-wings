@@ -9,19 +9,21 @@ use App\Http\Resources\Transaction as TransactionResource;
 
 class TransactionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        return TransactionResource::collection(auth()->user()->transactions()->get());
+        return TransactionResource::collection(auth()->user()->getTransactions($request));
     }
 
-    public function all()
+    public function all(Request $request, Transaction $transaction)
     {
-        return Transaction::all();
+        return $transaction->getAll($request);
     }
 
-    public function update()
+    public function update(Request $request)
     {
+        Transaction::find($request->transaction_id)->update($request->all());
 
+        return response()->json(['success' => true], 200);
     }
 
     public function create(Request $request, Transaction $transaction, User $user)
